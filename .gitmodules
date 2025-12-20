@@ -1,0 +1,15 @@
+[submodule "services/backend"]
+  path = services/backend
+  url = https://github.com/platoform/backend.git
+
+[submodule "services/frontend"]
+  path = services/frontend
+  url = https://github.com/platoform/frontend.git
+
+[submodule "services/docker"]
+  path = services/docker
+  url = https://github.com/platoform/docker.git
+
+[submodule "infra/terraform"]
+  path = infra/terraform
+  url = https://github.com/platoform/terraform.git
