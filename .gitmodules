@@ -1,15 +1,15 @@
 [submodule "services/backend"]
   path = services/backend
-  url = https://github.com/platoform/backend
+  url = https://github.com/DjangoChat/backend
 
 [submodule "services/frontend"]
   path = services/frontend
-  url = https://github.com/platoform/frontend
+  url = https://github.com/DjangoChat/frontend
 
 [submodule "services/docker"]
   path = services/docker
-  url = https://github.com/platoform/docker
+  url = https://github.com/DjangoChat/docker
 
 [submodule "infra/terraform"]
   path = infra/terraform
-  url = https://github.com/platoform/terraform
+  url = https://github.com/DjangoChat/terraform
