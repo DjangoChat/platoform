@@ -1,0 +1,10 @@
+# Environment variables
+.env.development
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
