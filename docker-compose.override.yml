@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  web:
+    volumes:
+      - static_volume:/app/backend/src/mediafields
+    ports:
+      - "8000:8000"
+
+  db:
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

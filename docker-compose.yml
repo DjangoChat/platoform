@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  web:
+    container_name: platoform_django
+    build:
+      context: .
+      dockerfile: ./services/docker/django/Dockerfile
+      target: development
+      args:
+        - ENV_TYPE=development
+    env_file:
+      - ./environment/.env.development
+    networks:
+      - platoform_net
+
+  db:
+    image: postgres:16-alpine
+    container_name: platform_postgres
+    restart: unless-stopped
+    env_file:
+      - ./environment/.env.development
+    networks:
+      - platoform_net
+
+volumes:
+  static_volume: {}
+  postgres_data: {}
+
+networks:
+  platoform_net:
