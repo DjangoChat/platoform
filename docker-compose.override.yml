@@ -4,6 +4,7 @@ services:
   web:
     volumes:
       - static_volume:/app/backend/src/mediafields
+      - ./services/backend/htmlcov:/app/backend/src/htmlcov
     ports:
       - "8000:8000"
 
