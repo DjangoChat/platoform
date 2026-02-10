@@ -16,6 +16,21 @@ services:
     depends_on:
       - db
 
+  frontend:
+    container_name: platoform_react
+    build:
+      context: .
+      dockerfile: ./services/docker/react/Dockerfile
+      target: development
+    env_file:
+      - ./environment/.env.development
+    environment:
+      - VITE_API_URL=http://localhost:8000/api/v1
+    networks:
+      - platoform_net
+    depends_on:
+      - web
+
   db:
     image: postgres:16-alpine
     container_name: platform_postgres

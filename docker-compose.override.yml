@@ -8,6 +8,12 @@ services:
     ports:
       - "8000:8000"
 
+  frontend:
+    volumes:
+      - ./services/frontend/src:/app/src
+    ports:
+      - "5173:5173"
+
   db:
     volumes:
       - postgres_data:/var/lib/postgresql/data
