@@ -1,16 +1,19 @@
 version: "3.8"
 
 services:
+  stripe-cli:
+    image: stripe/stripe-cli:latest
+    command: listen --api-key ${STRIPE_API_KEY} --forward-to web:8000/stripe/webhook --skip-verify
+    volumes:
+      - stripe-config:/root/.config/stripe/
+
   web:
     container_name: platoform_django
     build:
       context: .
-      dockerfile: ./services/docker/django/Dockerfile
-      target: development
-      args:
-        - ENV_TYPE=development
+      dockerfile: ./services/docker/django/development/Dockerfile
     env_file:
-      - ./environment/.env.development
+      - .env.development
     networks:
       - platoform_net
     depends_on:
@@ -20,12 +23,9 @@ services:
     container_name: platoform_react
     build:
       context: .
-      dockerfile: ./services/docker/react/Dockerfile
-      target: development
+      dockerfile: ./services/docker/react/development/Dockerfile
     env_file:
-      - ./environment/.env.development
-    environment:
-      - VITE_API_URL=http://localhost:8000/api/v1
+      - .env.development
     networks:
       - platoform_net
     depends_on:
@@ -36,13 +36,14 @@ services:
     container_name: platform_postgres
     restart: unless-stopped
     env_file:
-      - ./environment/.env.development
+      - .env.development
     networks:
       - platoform_net
 
 volumes:
   static_volume: {}
   postgres_data: {}
+  stripe-config: {}
 
 networks:
   platoform_net:

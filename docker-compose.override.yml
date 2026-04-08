@@ -10,9 +10,9 @@ services:
 
   frontend:
     volumes:
-      - ./services/frontend/src:/app/src
+      - ./services/frontend/src:/app/frontend/src
     ports:
-      - "5173:5173"
+      - "5173:80"
 
   db:
     volumes:
