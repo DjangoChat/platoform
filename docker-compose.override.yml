@@ -1,12 +1,28 @@
 version: "3.8"
 
 services:
+  stripe-cli:
+    build:
+      context: .
+      dockerfile: ./services/docker/stripe/development/Dockerfile
+    volumes:
+      - stripe-config:/root/.config/stripe/
+      - stripe-secrets:/stripe-secrets
+    networks:
+      - platoform_net
+    env_file:
+      - .env.development
+
   web:
     volumes:
       - static_volume:/app/backend/src/mediafields
       - ./services/backend/htmlcov:/app/backend/htmlcov
+      - stripe-secrets:/stripe-secrets
     ports:
       - "8000:8000"
+    depends_on:
+      - db
+      - stripe-cli
 
   frontend:
     volumes:
