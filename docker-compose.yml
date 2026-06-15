@@ -1,18 +1,6 @@
 version: "3.8"
 
 services:
-  stripe-cli:
-    build:
-      context: .
-      dockerfile: ./services/docker/stripe/development/Dockerfile
-    volumes:
-      - stripe-config:/root/.config/stripe/
-      - stripe-secrets:/stripe-secrets
-    networks:
-      - platoform_net
-    env_file:
-      - .env.development
-
   web:
     container_name: platoform_django
     build:
@@ -23,8 +11,8 @@ services:
     networks:
       - platoform_net
     depends_on:
-      - stripe-cli
-      - db
+      db:
+        condition: service_healthy
 
   frontend:
     container_name: platoform_react
@@ -46,12 +34,33 @@ services:
       - .env.development
     networks:
       - platoform_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+      start_period: 30s
+
+  redis:
+    image: redis:7
+    container_name: platform_redis
+    restart: unless-stopped
+    networks:
+      - platoform_net
+
+  # ollama:
+  #   image: ollama/ollama
+  #   container_name: platform_ollama
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama_data:/root/.ollama
 
 volumes:
   static_volume: {}
   postgres_data: {}
-  stripe-config: {}
-  stripe-secrets: {}
+  ollama_data: {}
+  redis_data: {}
 
 networks:
   platoform_net:
