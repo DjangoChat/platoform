@@ -1,6 +1,6 @@
 # NeuroConnect
 
-Description:
+This is an AI-powered messaging platform inspired by WhatsApp. Its primary purpose is to learn from users' conversations by analyzing the content of their responses to build personalized user profiles. Based on these profiles, the system recommends contacts who are most likely to engage in meaningful and enjoyable conversations, fostering more relevant and engaging social interactions.
 
 ## Technologies
 
