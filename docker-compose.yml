@@ -47,6 +47,12 @@ services:
     restart: unless-stopped
     networks:
       - platoform_net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
 
   # ollama:
   #   image: ollama/ollama

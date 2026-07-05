@@ -19,3 +19,7 @@ run_sonarqube:
 	-e SONAR_HOST_URL=http://sonarqube:9000 \
 	-e SONAR_TOKEN=sqp_16f09d9840dada2baf637d74b32e40f953ffe523 \
 	sonarsource/sonar-scanner-cli
+
+# pip-audit
+run_pip_audit:
+	docker exec platoform_django sh -c 'ls -la && pip-audit -r ./requirements/development.txt'

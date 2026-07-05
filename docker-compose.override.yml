@@ -13,20 +13,20 @@ services:
     env_file:
       - .env.development
 
-  sonarqube:
-    image: sonarqube:lts-community
-    ports:
-      - "9000:9000"
-    environment:
-      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
-      SONAR_JDBC_USERNAME: admin
-      SONAR_JDBC_PASSWORD: admin
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_logs:/opt/sonarqube/logs
-      - sonarqube_extensions:/opt/sonarqube/extensions
-    networks:
-      - platoform_net
+  # sonarqube:
+  #   image: sonarqube:lts-community
+  #   ports:
+  #     - "9000:9000"
+  #   environment:
+  #     SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+  #     SONAR_JDBC_USERNAME: admin
+  #     SONAR_JDBC_PASSWORD: admin
+  #   volumes:
+  #     - sonarqube_data:/opt/sonarqube/data
+  #     - sonarqube_logs:/opt/sonarqube/logs
+  #     - sonarqube_extensions:/opt/sonarqube/extensions
+  #   networks:
+  #     - platoform_net
 
   web:
     volumes:
@@ -44,6 +44,8 @@ services:
   redis:
     volumes:
       - redis_data:/data
+    ports:
+      - "6379:6379"
 
   frontend:
     volumes:
