@@ -26,7 +26,6 @@
   - Denormalization
   - Indexing strategy && Composite Indexes
   - Partition (rare case)
-- redux-persist
 
 ## TO-DO BACKEND
 
@@ -67,13 +66,6 @@
 
 - add cache
 - customize the admin panel UI filters, searches, ...
-
-## REFERENCES
-
-- https://docs.stripe.com/testing?testing-method=card-numbers
-- https://github.com/PikoCanFly/JWT-HTTPCookies-Django-DRF-NEXT.JS/blob/main/backend/users/views.py
-- https://docs.ollama.com/api/introduction
-- https://ollama.com/library/qwen3?utm_source=chatgpt.com
 
 ## USEFULL INFO
 

@@ -18,7 +18,6 @@ This is an AI-powered messaging platform inspired by WhatsApp. Its primary purpo
 1. Package Manager: A package manager install python packages (pip, uv)
 2. Project Manager: Help manage an entire project (proetry, uv, hatch)
 3. Packaging Tools: These tools turn your source code into something installable (setuptools, poetry-core)
-4. pyproject.toml is a config file that is compatible with multiple technologies
 
 ## What could be improved
 
@@ -41,3 +40,12 @@ git submodule update --init --recursive
 ```
 
 ## Video
+
+## REFERENCES
+
+- https://docs.stripe.com/api
+- https://docs.stripe.com/testing?testing-method=card-numbers
+- https://github.com/PikoCanFly/JWT-HTTPCookies-Django-DRF-NEXT.JS/blob/main/backend/users/views.py
+- https://docs.ollama.com/api/introduction
+- https://ollama.com/library/qwen3?utm_source=chatgpt.com
+- https://qwen.readthedocs.io/en/latest/index.html
