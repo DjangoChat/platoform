@@ -1,17 +1,63 @@
 version: "3.8"
 
+x-app-env: &app-env
+  env_file:
+    - ./env/.env.development
+  networks:
+    - platoform_net
+
 services:
+  web:
+    <<: *app-env
+    volumes:
+      - static_volume:/app/backend/src/mediafields
+      - ./services/backend/htmlcov:/app/backend/htmlcov
+      - stripe-secrets:/stripe-secrets
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      stripe-cli:
+        condition: service_started
+
+  frontend:
+    <<: *app-env
+    volumes:
+      - ./services/frontend/src:/app/frontend/src
+    ports:
+      - "5173:80"
+    depends_on:
+      - web
+
+  db:
+    <<: *app-env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    <<: *app-env
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    <<: *app-env
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   stripe-cli:
+    <<: *app-env
     build:
       context: .
       dockerfile: ./services/docker/stripe/development/Dockerfile
     volumes:
       - stripe-config:/root/.config/stripe/
       - stripe-secrets:/stripe-secrets
-    networks:
-      - platoform_net
-    env_file:
-      - .env.development
 
   # sonarqube:
   #   image: sonarqube:lts-community
@@ -28,45 +74,16 @@ services:
   #   networks:
   #     - platoform_net
 
-  web:
-    volumes:
-      - static_volume:/app/backend/src/mediafields
-      - ./services/backend/htmlcov:/app/backend/htmlcov
-      - stripe-secrets:/stripe-secrets
-    ports:
-      - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
-      stripe-cli:
-        condition: service_started
-
-  redis:
-    volumes:
-      - redis_data:/data
-    ports:
-      - "6379:6379"
-
-  rabbitmq:
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-
-  frontend:
-    volumes:
-      - ./services/frontend/src:/app/frontend/src
-    ports:
-      - "5173:80"
-
-  db:
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
 volumes:
+  static_volume: {}
+  postgres_data: {}
+  redis_data: {}
   stripe-config: {}
   stripe-secrets: {}
   sonarqube_data: {}
   sonarqube_logs: {}
   sonarqube_extensions: {}
+  ollama_data: {}
+
+networks:
+  platoform_net:
