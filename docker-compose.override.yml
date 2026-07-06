@@ -20,6 +20,10 @@ services:
         condition: service_healthy
       stripe-cli:
         condition: service_started
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
 
   frontend:
     <<: *app-env
@@ -58,6 +62,41 @@ services:
     volumes:
       - stripe-config:/root/.config/stripe/
       - stripe-secrets:/stripe-secrets
+
+  celery-worker:
+    <<: *app-env
+    volumes:
+      - static_volume:/app/backend/src/mediafields
+      - ./services/backend/htmlcov:/app/backend/htmlcov
+      - stripe-secrets:/stripe-secrets
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  celery-beat:
+    <<: *app-env
+    volumes:
+      - static_volume:/app/backend/src/mediafields
+      - ./services/backend/htmlcov:/app/backend/htmlcov
+      - stripe-secrets:/stripe-secrets
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  flower:
+    <<: *app-env
+    ports:
+      - "5555:5555"
+    volumes:
+      - static_volume:/app/backend/src/mediafields
+      - ./services/backend/htmlcov:/app/backend/htmlcov
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   # sonarqube:
   #   image: sonarqube:lts-community

@@ -6,6 +6,12 @@ services:
     build:
       context: .
       dockerfile: ./services/docker/django/development/Dockerfile
+    entrypoint: ["/entrypoint.sh"]
+    command:
+      - python
+      - manage.py
+      - runserver
+      - 0.0.0.0:8000
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/healthz/"]
       interval: 30s
@@ -55,6 +61,32 @@ services:
       timeout: 5s
       retries: 3
       start_period: 15s
+
+  celery-worker:
+    container_name: platform_celery_worker
+    build:
+      context: .
+      dockerfile: ./services/docker/django/development/Dockerfile
+    restart: unless-stopped
+    command:
+      ["sh", "-c", "celery -A config worker --loglevel=info --concurrency=1"]
+
+  celery-beat:
+    container_name: platform_celery_beat
+    build:
+      context: .
+      dockerfile: ./services/docker/django/development/Dockerfile
+    restart: unless-stopped
+    command: ["sh", "-c", "celery -A config beat --loglevel=info"]
+
+  flower:
+    container_name: platform_flower
+    build:
+      context: .
+      dockerfile: ./services/docker/django/development/Dockerfile
+    restart: unless-stopped
+    command:
+      ["sh", "-c", "celery -A config flower --address=0.0.0.0 --port=5555"]
 
   # ollama:
   #   image: ollama/ollama
