@@ -49,3 +49,5 @@ git submodule update --init --recursive
 - https://docs.ollama.com/api/introduction
 - https://ollama.com/library/qwen3?utm_source=chatgpt.com
 - https://qwen.readthedocs.io/en/latest/index.html
+- https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+- https://freedium-mirror.cfd/https://medium.com/@anas-issath/django-monitoring-observability-metrics-tracing-and-alerting-fa6babc31c32

@@ -13,7 +13,7 @@ services:
       - runserver
       - 0.0.0.0:8000
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health/"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -87,6 +87,40 @@ services:
     restart: unless-stopped
     command:
       ["sh", "-c", "celery -A config flower --address=0.0.0.0 --port=5555"]
+
+  prometheus:
+    container_name: platform_prometheus
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:9090/-/healthy",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  grafana:
+    container_name: platform_grafana
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
 
   # ollama:
   #   image: ollama/ollama
